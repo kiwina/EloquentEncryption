@@ -23,7 +23,7 @@
         "phpseclib/phpseclib": "~2.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^^7.0",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.0"
     },
     "autoload": {
