@@ -65,6 +65,11 @@ class EloquentEncryption implements Encrypter
 
         return $rsa->createKey(Config::get('eloquent_encryption.key.length', 4096));
     }
+    
+    public function getKey()
+    {
+        return $this->getRsa($this->handler->getPublicKey());
+    }
 
     /**
      * Helper function to ensure RSA options match for encrypting/decrypting
@@ -72,7 +77,7 @@ class EloquentEncryption implements Encrypter
      * @param $key
      * @return RSA
      */
-    public function getKey($key)
+    private function getRsa($key)
     {
         $rsa = new RSA();
         $rsa->loadKey($key);
@@ -91,7 +96,7 @@ class EloquentEncryption implements Encrypter
      */
     public function encrypt($value, $serialize = true)
     {
-        return $this->getKey($this->handler->getPublicKey())
+        return $this->getRsa($this->handler->getPublicKey())
             ->encrypt($serialize ? serialize($value) : $value);
     }
 
@@ -122,7 +127,7 @@ class EloquentEncryption implements Encrypter
             return null;
         }
 
-        $decrypted = $this->getKey($this->handler->getPrivateKey())
+        $decrypted = $this->getRsa($this->handler->getPrivateKey())
             ->decrypt($value);
 
         return $unserialize ? unserialize($decrypted) : $decrypted;
