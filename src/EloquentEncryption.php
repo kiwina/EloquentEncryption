@@ -72,7 +72,7 @@ class EloquentEncryption implements Encrypter
      * @param $key
      * @return RSA
      */
-    private function getKey($key)
+    public function getKey($key)
     {
         $rsa = new RSA();
         $rsa->loadKey($key);
